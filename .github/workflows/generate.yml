@@ -1,7 +1,11 @@
 name: Auto python
 
 on:
+  push:
+    paths:
+      - '**.py'
   workflow_dispatch:
+
 
 jobs:
   build:
