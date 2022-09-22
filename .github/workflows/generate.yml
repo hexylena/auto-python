@@ -44,7 +44,7 @@ jobs:
         run: |
           stty cols 131 rows 33
           for fn in examples/*.py; do
-            asciinema rec python automate.py "$fn" --cols 131 --rows 33 -t "Automated Stepping of $fn" $fn.cast;
+            asciinema rec -c "python automate.py" "$fn" --cols 131 --rows 33 -t "Automated Stepping of $fn" $fn.cast;
             asciinema upload "$fn.cast"
           done;
         env:
