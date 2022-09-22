@@ -35,9 +35,6 @@ jobs:
         env:
             ASCIINEMA_KEY: ${{ secrets.ASCIINEMA_KEY }}
 
-      - name: Setup Ansible
-        run: |
-
       - name: Record & Upload
         shell: 'script --return --quiet --command "bash {0}"'
         run: |
