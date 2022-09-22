@@ -44,7 +44,7 @@ jobs:
           mkdir -p ~/.config/pudb/
           cat > ~/.config/pudb/pudb.cfg <<-EOF
               [pudb]
-              breakpoints_weight = 1
+              breakpoints_weight = 0
               current_stack_frame = top
               custom_shell = 
               custom_stringifier = 
@@ -60,7 +60,7 @@ jobs:
               prompt_on_quit = True
               seen_welcome = e043
               shell = internal
-              sidebar_width = 0.5
+              sidebar_width = 1
               stack_weight = 1
               stringifier = default
               theme = midnight
