@@ -1,9 +1,3 @@
-import urllib.request
-import os
-
-if not os.path.exists("hamlet.txt"):
-    urllib.request.urlretrieve("https://gutenberg.org/cache/epub/1524/pg1524.txt", "hamlet.txt")
-
 with open('hamlet.txt', 'r') as handle:
     # readlines reads every line of a file into a giant list!
     lines = handle.readlines()
@@ -19,7 +13,13 @@ speakers = [
 ]
 
 speakers = [x for x in speakers if x.upper() == x]
+# Get the unique options
+unique_speakers = set(speakers)
+counts = [
+    (s, speakers.count(s))
+    for s in
+    unique_speakers
+]
+counts = sorted(counts, key=lambda x: -x[1])
 
-import collections
-c = collections.Counter(speakers)
-print(c.most_common(10))
+print(counts[0:10])
