@@ -1,0 +1,58 @@
+name: Auto python
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          submodules: true
+
+      # BEGIN Dependencies
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+          architecture: 'x64'
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/pip
+          key: ${{ runner.os }}-python-${{ hashFiles('**/requirements.txt') }}
+
+      - name: Install python dependencies
+        run: |
+            pip install -r requirements.txt
+      # END Dependencies
+
+      - name: Auth to asciinema
+        run: |
+            mkdir -p ~/.config/asciinema/
+            echo "${ASCIINEMA_KEY}" >> ~/.config/asciinema/install-id
+        env:
+            ASCIINEMA_KEY: ${{ secrets.ASCIINEMA_KEY }}
+
+      - name: Setup Ansible
+        run: |
+
+      - name: Record & Upload
+        shell: 'script --return --quiet --command "bash {0}"'
+        run: |
+          stty cols 131 rows 33
+          for fn in examples/*.py; do
+            asciinema rec python automate.py "$fn" --cols 131 --rows 33 -t "Automated Stepping of $fn" $fn.cast;
+            asciinema upload "$fn.cast"
+          done;
+        env:
+            TERM: xterm
+
+      - name: Archive asciinema recordings
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: asciinema
+          path: |
+            examples/*.cast
